@@ -1,10 +1,23 @@
-#!/usr/bin/env bash
-set -euo pipefail
+#!/bin/bash
 
-echo "[slack] Installing deps..."
-npm install
+# Script para build do app Slack
+set -e
 
-echo "[slack] Building..."
-npm run build
+echo "🔨 Building Slack App..."
 
-echo "[slack] Build finished (dist/)"
+# Limpar build anterior
+echo "🧹 Cleaning previous build..."
+rm -rf dist/
+
+# Instalar dependências se necessário
+if [ ! -d "node_modules" ]; then
+    echo "📦 Installing dependencies..."
+    npm install
+fi
+
+# Compilar TypeScript
+echo "⚙️  Compiling TypeScript..."
+npx tsc
+
+echo "✅ Build completed successfully!"
+echo "📁 Output: dist/"

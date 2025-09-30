@@ -1,18 +1,26 @@
 {
-    "name": "slack",
+    "name": "slack-app",
     "version": "1.0.0",
-    "description": "App DocGo para integração com Slack",
+    "description": "Aplicação para envio de mensagens para canais do Slack",
+    "main": "dist/enviarMensagem.js",
     "scripts": {
         "build": "tsc",
-        "watch": "tsc --watch",
-        "prebuild": "npm run clean",
+        "dev": "tsc --watch",
         "clean": "rm -rf dist"
     },
+    "keywords": [
+        "slack",
+        "mensagens",
+        "comunicacao",
+        "docgo"
+    ],
+    "author": "DocGo",
+    "license": "MIT",
     "dependencies": {
         "docgo-sdk": "github:doc9-oficial/docgo-sdk-js"
     },
     "devDependencies": {
-        "typescript": "^5.0.0",
-        "@types/node": "^20.0.0"
+        "@types/node": "^20.0.0",
+        "typescript": "^5.0.0"
     }
 }

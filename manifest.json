@@ -1,54 +1,57 @@
 {
     "name": "slack",
     "version": "1.0.0",
-    "description": "Aplicação para integração com Slack",
+    "description": "Aplicação para envio de mensagens para canais do Slack",
     "functions": {
         "enviarMensagem": {
             "script": "dist/enviarMensagem.js",
             "description": "Envia uma mensagem para um canal do Slack",
-            "parameters": [
+            "category": "comunicacao",
+            "params": [
                 {
                     "name": "canal",
                     "type": "string",
                     "required": true,
-                    "description": "Canal do Slack (ex: #geral, @usuario, ou ID do canal)"
+                    "description": "Nome ou ID do canal do Slack",
+                    "form": {
+                        "type": "text",
+                        "label": "Canal",
+                        "placeholder": "Ex: #geral ou C1234567890",
+                        "help": "Digite o nome do canal (com #) ou o ID do canal"
+                    }
                 },
                 {
-                    "name": "texto",
+                    "name": "mensagem",
                     "type": "string",
                     "required": true,
-                    "description": "Texto da mensagem a ser enviada"
+                    "description": "Texto da mensagem a ser enviada",
+                    "form": {
+                        "type": "textarea",
+                        "label": "Mensagem",
+                        "placeholder": "Digite sua mensagem aqui...",
+                        "help": "Digite o conteúdo da mensagem que será enviada para o canal",
+                        "rows": 4
+                    }
+                },
+                {
+                    "name": "threadTs",
+                    "type": "string",
+                    "required": false,
+                    "description": "Timestamp da mensagem para responder em thread",
+                    "form": {
+                        "type": "text",
+                        "label": "Responder em Thread",
+                        "placeholder": "Ex: 1234567890.123456",
+                        "help": "Timestamp da mensagem para responder em thread (opcional)"
+                    }
                 }
-            ],
-            "mcp": {
-                "name": "enviar_mensagem_slack",
-                "description": "Send a message to a Slack channel",
-                "inputSchema": {
-                    "type": "object",
-                    "properties": {
-                        "canal": {
-                            "type": "string",
-                            "description": "Slack channel (e.g., #general, @user, or channel ID)"
-                        },
-                        "texto": {
-                            "type": "string",
-                            "description": "Message text to send"
-                        }
-                    },
-                    "required": [
-                        "canal",
-                        "texto"
-                    ]
-                }
-            }
+            ]
         }
     },
-    "variables": {
-        "timeout": "30000",
-        "max_retries": "3"
+    "config": {
+        "timeout": 30000,
+        "max_retries": 3,
+        "cache_ttl": 0
     },
-    "mcp": {
-        "enabled": true,
-        "tools": []
-    }
+    "mcp": true
 }
