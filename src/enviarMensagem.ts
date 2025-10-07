@@ -3,20 +3,72 @@ import docgo from "docgo-sdk";
 interface EnviarMensagemParams {
   canal: string;
   mensagem: string;
-  threadTs?: string; // Para responder em thread
-  blocks?: any[]; // Para mensagens formatadas
-  attachments?: any[]; // Para anexos
+  threadTs?: string;
+  blocks?: any[];
+  attachments?: any[];
+  webhook?: string;
 }
 
 async function enviarMensagemSlack(params: EnviarMensagemParams): Promise<any> {
-  const token = docgo.getEnv("SLACK_BOT_TOKEN");
+  const webhook = params.webhook || docgo.getEnv("SLACK_WEBHOOK_URL") || docgo.getEnv("slackWebhookUrl");
+  
+  if (webhook) {
+    return enviarViaWebhook(webhook, params);
+  } else {
+    return enviarViaAPI(params);
+  }
+}
+
+async function enviarViaWebhook(webhookUrl: string, params: EnviarMensagemParams): Promise<any> {
+  const payload: any = {
+    text: params.mensagem,
+    channel: params.canal,
+  };
+
+  if (params.blocks && params.blocks.length > 0) {
+    payload.blocks = params.blocks;
+  }
+
+  if (params.attachments && params.attachments.length > 0) {
+    payload.attachments = params.attachments;
+  }
+
+  if (params.threadTs) {
+    payload.thread_ts = params.threadTs;
+  }
+
+  const response = await fetch(webhookUrl, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(payload),
+  });
+
+  if (!response.ok) {
+    throw new Error(`Falha HTTP ${response.status}: ${response.statusText}`);
+  }
+
+  const text = await response.text();
+  if (text === "ok") {
+    return { 
+      ok: true, 
+      ts: new Date().getTime() / 1000
+    };
+  } else {
+    throw new Error(`Erro do Webhook: ${text}`);
+  }
+}
+
+async function enviarViaAPI(params: EnviarMensagemParams): Promise<any> {
+  const token = docgo.getEnv("SLACK_BOT_TOKEN") || docgo.getEnv("slackBotToken");
   if (!token) {
     throw new Error(
-      "Token do Slack não configurado. Configure a variável SLACK_BOT_TOKEN"
+      "Token do Slack não configurado. Configure a variável SLACK_BOT_TOKEN ou slackBotToken, ou forneça um webhook URL"
     );
   }
 
-  const baseUrl = docgo.getEnv("SLACK_BASE_URL") || "https://slack.com/api";
+  const baseUrl = docgo.getEnv("SLACK_BASE_URL") || docgo.getEnv("slackBaseUrl") || "https://slack.com/api";
 
   const url = `${baseUrl}/chat.postMessage`;
 
@@ -25,7 +77,6 @@ async function enviarMensagemSlack(params: EnviarMensagemParams): Promise<any> {
     text: params.mensagem,
   };
 
-  // Adicionar parâmetros opcionais se fornecidos
   if (params.threadTs) {
     payload.thread_ts = params.threadTs;
   }
@@ -63,20 +114,21 @@ async function enviarMensagemSlack(params: EnviarMensagemParams): Promise<any> {
 }
 
 async function enviarMensagem(params: EnviarMensagemParams): Promise<void> {
-  if (Array.isArray(params) && typeof params[0] === "string") {
-    try {
-      params = JSON.parse(params[0]);
-    } catch {
-      // fallback: argumentos posicionais
-      if (Array.isArray(params)) {
-        const [canal, mensagem] = params;
-        params = { canal, mensagem };
-      }
-    }
+  if (Array.isArray(params) && params.length === 1 && typeof params[0] === 'object') {
+    params = params[0];
   }
   try {
-    // Validar parâmetros obrigatórios
-    if (!params.canal) {
+    const webhook = params.webhook || docgo.getEnv("SLACK_WEBHOOK_URL") || docgo.getEnv("slackWebhookUrl");
+    const token = docgo.getEnv("SLACK_BOT_TOKEN") || docgo.getEnv("slackBotToken");
+    
+    if (!webhook && !token) {
+      console.log(docgo.result(false, null, 
+        "É necessário configurar um token de bot (SLACK_BOT_TOKEN) ou uma URL de webhook (SLACK_WEBHOOK_URL)"
+      ));
+      return;
+    }
+
+    if (!params.canal && !webhook) {
       console.log(docgo.result(false, null, "É necessário informar o canal"));
       return;
     }
@@ -88,7 +140,6 @@ async function enviarMensagem(params: EnviarMensagemParams): Promise<void> {
       return;
     }
 
-    // Enviar mensagem para o Slack
     const resultado = await enviarMensagemSlack(params);
 
     const resposta = {
