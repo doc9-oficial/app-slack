@@ -1,52 +1,68 @@
 {
     "name": "slack",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "description": "Aplicação para envio de mensagens para canais do Slack",
     "functions": {
         "enviarMensagem": {
             "script": "dist/enviarMensagem.js",
             "description": "Envia uma mensagem para um canal do Slack",
             "category": "comunicacao",
+            "values": {
+                "canal": "",
+                "mensagem": "Olá, mundo!",
+                "threadTs": "1234567890.123456",
+                "webhook": ""
+            },
             "params": [
                 {
                     "name": "canal",
                     "type": "string",
-                    "required": true,
-                    "description": "Nome ou ID do canal do Slack",
-                    "form": {
-                        "type": "text",
-                        "label": "Canal",
-                        "placeholder": "Ex: #geral ou C1234567890",
-                        "help": "Digite o nome do canal (com #) ou o ID do canal"
-                    }
+                    "inputType": "text",
+                    "required": false,
+                    "label": "Nome ou ID do canal do Slack (opcional quando usando webhook)"
+                    
                 },
                 {
                     "name": "mensagem",
                     "type": "string",
+                    "inputType": "text",
                     "required": true,
-                    "description": "Texto da mensagem a ser enviada",
-                    "form": {
-                        "type": "textarea",
-                        "label": "Mensagem",
-                        "placeholder": "Digite sua mensagem aqui...",
-                        "help": "Digite o conteúdo da mensagem que será enviada para o canal",
-                        "rows": 4
-                    }
+                    "label": "Texto da mensagem a ser enviada"
+                    
                 },
                 {
                     "name": "threadTs",
                     "type": "string",
+                    "inputType": "text",
                     "required": false,
-                    "description": "Timestamp da mensagem para responder em thread",
-                    "form": {
-                        "type": "text",
-                        "label": "Responder em Thread",
-                        "placeholder": "Ex: 1234567890.123456",
-                        "help": "Timestamp da mensagem para responder em thread (opcional)"
-                    }
+                    "label": "Timestamp da mensagem para responder em thread"
                 }
             ]
         }
+    },
+    "auth": {
+        "description": {
+            "title": "Configuração do Slack",
+            "body": "Configure as credenciais para interagir com o Slack. Você pode usar um token de bot ou uma URL de webhook.",
+            "footer": "Utilize somente um método de autenticação por vez.",
+            "link": "https://api.slack.com/authentication"
+        },
+        "params": [
+            {
+                "name": "slackBotToken",
+                "type": "string",
+                "inputType": "password",
+                "required": false,
+                "label": "Token de Bot do Slack"
+            },
+            {
+                "name": "slackWebhookUrl",
+                "type": "string",
+                "inputType": "password",
+                "required": false,
+                "label": "URL do Webhook do Slack"
+            }
+        ]
     },
     "config": {
         "timeout": 30000,
