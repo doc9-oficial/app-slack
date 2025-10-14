@@ -4,6 +4,7 @@
     "description": "Aplicação para envio de mensagens para canais do Slack",
     "functions": {
         "enviarMensagem": {
+            "name": "Enviar Mensagem - Slack",
             "script": "dist/enviarMensagem.js",
             "description": "Envia uma mensagem para um canal do Slack",
             "category": "comunicacao",
