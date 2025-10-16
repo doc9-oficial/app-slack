@@ -5,6 +5,7 @@
     "functions": {
         "enviarMensagem": {
             "name": "Enviar Mensagem - Slack",
+            "icon": "Slack",
             "script": "dist/enviarMensagem.js",
             "description": "Envia uma mensagem para um canal do Slack",
             "category": "comunicacao",
