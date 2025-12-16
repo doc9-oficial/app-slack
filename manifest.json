@@ -1,79 +1,79 @@
 {
-    "name": "app-slack",
-    "version": "2.0.0",
-    "description": "Aplicação para envio de mensagens para canais do Slack",
-    "functions": {
-        "enviarMensagem": {
-            "name": "Enviar Mensagem - Slack",
-            "icon": "Slack",
-            "script": "dist/enviarMensagem.js",
-            "description": "Envia uma mensagem para um canal do Slack",
-            "category": "comunicacao",
-            "values": {
-                "canal": "",
-                "mensagem": "Olá, mundo!",
-                "threadTs": "1234567890.123456",
-                "webhook": ""
-            },
-            "help": {
-                "title": "Como usar a função enviarMensagem",
-                "body": "Use esta função para enviar mensagens para canais do Slack. Você pode optar por usar um token de bot ou uma URL de webhook para autenticação. Forneça o canal (opcional com webhook), a mensagem obrigatória e, se desejar, o timestamp da mensagem para responder em thread.",
-                "footer": "",
-                "link": ""
-            },
-            "params": [
-                {
-                    "name": "canal",
-                    "type": "string",
-                    "inputType": "text",
-                    "required": false,
-                    "label": "Nome ou ID do canal do Slack (opcional quando usando webhook)"
-                },
-                {
-                    "name": "mensagem",
-                    "type": "string",
-                    "inputType": "text",
-                    "required": true,
-                    "label": "Texto da mensagem a ser enviada"
-                },
-                {
-                    "name": "threadTs",
-                    "type": "string",
-                    "inputType": "text",
-                    "required": false,
-                    "label": "Timestamp da mensagem para responder em thread"
-                }
-            ]
-        }
-    },
-    "auth": {
-        "description": {
-            "title": "Configuração do Slack",
-            "body": "Configure as credenciais para interagir com o Slack. Você pode usar um token de bot ou uma URL de webhook.",
-            "footer": "Utilize somente um método de autenticação por vez.",
-            "link": "https://api.slack.com/authentication"
+  "name": "app-slack",
+  "version": "2.0.0",
+  "description": "Aplicação para envio de mensagens para canais do Slack",
+  "functions": {
+    "enviarMensagem": {
+      "name": "Slack - Enviar Mensagem para Canal",
+      "icon": "Slack",
+      "script": "dist/enviarMensagem.js",
+      "description": "Envia uma mensagem para um canal do Slack",
+      "category": "comunicacao",
+      "values": {
+        "canal": "",
+        "mensagem": "Olá, mundo!",
+        "threadTs": "1234567890.123456",
+        "webhook": ""
+      },
+      "help": {
+        "title": "Como usar a função enviarMensagem",
+        "body": "Use esta função para enviar mensagens para canais do Slack. Você pode optar por usar um token de bot ou uma URL de webhook para autenticação. Forneça o canal (opcional com webhook), a mensagem obrigatória e, se desejar, o timestamp da mensagem para responder em thread.",
+        "footer": "",
+        "link": ""
+      },
+      "params": [
+        {
+          "name": "canal",
+          "type": "string",
+          "inputType": "text",
+          "required": false,
+          "label": "Nome ou ID do canal do Slack (opcional quando usando webhook)"
         },
-        "params": [
-            {
-                "name": "slackBotToken",
-                "type": "string",
-                "inputType": "password",
-                "required": false,
-                "label": "Token de Bot do Slack"
-            },
-            {
-                "name": "slackWebhookUrl",
-                "type": "string",
-                "inputType": "password",
-                "required": false,
-                "label": "URL do Webhook do Slack"
-            }
-        ]
+        {
+          "name": "mensagem",
+          "type": "string",
+          "inputType": "text",
+          "required": true,
+          "label": "Texto da mensagem a ser enviada"
+        },
+        {
+          "name": "threadTs",
+          "type": "string",
+          "inputType": "text",
+          "required": false,
+          "label": "Timestamp da mensagem para responder em thread"
+        }
+      ]
+    }
+  },
+  "auth": {
+    "description": {
+      "title": "Configuração do Slack",
+      "body": "Configure as credenciais para interagir com o Slack. Você pode usar um token de bot ou uma URL de webhook.",
+      "footer": "Utilize somente um método de autenticação por vez.",
+      "link": "https://api.slack.com/authentication"
     },
-    "config": {
-        "timeout": 30000,
-        "max_retries": 3,
-        "cache_ttl": 0
-    },
-    "mcp": true
+    "params": [
+      {
+        "name": "slackBotToken",
+        "type": "string",
+        "inputType": "password",
+        "required": false,
+        "label": "Token de Bot do Slack"
+      },
+      {
+        "name": "slackWebhookUrl",
+        "type": "string",
+        "inputType": "password",
+        "required": false,
+        "label": "URL do Webhook do Slack"
+      }
+    ]
+  },
+  "config": {
+    "timeout": 30000,
+    "max_retries": 3,
+    "cache_ttl": 0
+  },
+  "mcp": true
 }
