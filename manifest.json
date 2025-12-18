@@ -12,12 +12,11 @@
       "values": {
         "canal": "",
         "mensagem": "Olá, mundo!",
-        "threadTs": "1234567890.123456",
         "webhook": ""
       },
       "help": {
         "title": "Como usar a função enviarMensagem",
-        "body": "Use esta função para enviar mensagens para canais do Slack. Você pode optar por usar um token de bot ou uma URL de webhook para autenticação. Forneça o canal (opcional com webhook), a mensagem obrigatória e, se desejar, o timestamp da mensagem para responder em thread.",
+        "body": "Use esta função para enviar mensagens para canais do Slack. Você pode optar por usar um token de bot ou uma URL de webhook para autenticação. Forneça o canal (opcional com webhook), a mensagem obrigatória.",
         "footer": "",
         "link": ""
       },
@@ -35,13 +34,6 @@
           "inputType": "text",
           "required": true,
           "label": "Texto da mensagem a ser enviada"
-        },
-        {
-          "name": "threadTs",
-          "type": "string",
-          "inputType": "text",
-          "required": false,
-          "label": "Timestamp da mensagem para responder em thread"
         }
       ]
     }

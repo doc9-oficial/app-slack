@@ -20,7 +20,6 @@ Envia uma mensagem para um canal do Slack.
 
 - `canal` (obrigatório): Nome ou ID do canal (ex: #geral ou C1234567890)
 - `mensagem` (obrigatório): Texto da mensagem
-- `threadTs` (opcional): Timestamp para responder em thread
 
 ## ⚙️ Configuração
 
