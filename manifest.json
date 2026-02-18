@@ -1,7 +1,9 @@
 {
   "name": "app-slack",
+  "displayName": "Slack",
   "version": "2.0.0",
   "description": "Aplicação para envio de mensagens para canais do Slack",
+  "icon": "Slack",
   "functions": {
     "enviarMensagem": {
       "name": "Slack - Enviar Mensagem para Canal",
